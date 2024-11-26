@@ -63,15 +63,15 @@ void Game::AddListener(IGameListener* gameListener)
 
 void Game::RemoveListener(IGameListener* gameListener)
 {
-	auto func = [gameListener](IGameListener* el)
-		{
-			return el == gameListener;
-		};
-	m_listeners.erase(std::remove_if(m_listeners.begin(), m_listeners.end(), func));
+	//auto func = [gameListener](IGameListener* el)
+	//	{
+	//		return el == gameListener;
+	//	};
+	//m_listeners.erase(std::remove_if(m_listeners.begin(), m_listeners.end(), func));
 }
 
 
 std::shared_ptr<IGame> IGame::Produce()
 {
-	return std::make_shared<IGame>();
+	return std::make_shared<Game>();
 }

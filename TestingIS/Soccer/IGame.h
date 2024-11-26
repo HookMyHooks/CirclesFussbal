@@ -1,8 +1,13 @@
 #pragma once
 #include "IGameListener.h"
+#include "EPlayer.h"
+
 class IGame
 {
 public:
+
+	~IGame() = default;
+
 	virtual std::vector<EPlayer> GetPlayerObjects() const = 0;
 	virtual EPlayer GetCurrentPlayer() const = 0;
 	//virtual void CheckForGoal(const float x, const float y) const = 0;
