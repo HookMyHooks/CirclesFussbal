@@ -43,9 +43,15 @@
     <ClCompile Include="DraggableCircle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="DraggableCircle.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="GameScene.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
