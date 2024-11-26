@@ -4,8 +4,9 @@
 #include <QTimer>
 #include <QDebug>
 #include "DraggableCircle.h"
+#include "IGame.h"
 
-class GameScene : public QGraphicsScene {
+class GameScene : public QGraphicsScene, public IGameListener {
     Q_OBJECT
 
 public:
@@ -15,6 +16,11 @@ public:
         connect(timer, &QTimer::timeout, this, &GameScene::updateCircles);
         timer->start(16); // ~60 FPS
     }
+
+
+    void SetGame(std::shared_ptr<IGame> game);
+
+    void OnWin() override;
 
 protected:
     bool isDragging = false;
@@ -30,4 +36,8 @@ protected:
 
 private slots:
     void updateCircles();
+
+private:
+    std::shared_ptr<IGame> m_game;
+
 };

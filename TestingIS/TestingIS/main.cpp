@@ -4,10 +4,19 @@
 #include "DraggableCircle.h"  
 #include "GameScene.h"
 
+
+
 int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
 
+
+    auto game = IGame::Produce();
+
+
     GameScene* scene = new GameScene();
+    scene->SetGame(game);
+
+    
     DraggableCircle* circle1 = new DraggableCircle(50, 50, 50); // x, y, radius
     DraggableCircle* circle2 = new DraggableCircle(200, 200, 50);
 

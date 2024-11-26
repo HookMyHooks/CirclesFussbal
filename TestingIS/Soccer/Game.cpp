@@ -1,5 +1,13 @@
 #include "Game.h"
 
+void Game::NotifyListenersOnWin() const
+{
+	for (auto it : m_listeners)
+	{
+		it->OnWin();
+	}
+}
+
 Game::Game()
 {
 	m_currentPlayer = EPlayer::PLAYER1;
@@ -45,4 +53,25 @@ EPlayer Game::GetCurrentPlayer() const
 std::vector<EPlayer> Game::GetPlayerObjects() const
 {
 	return m_playerObjects;
+}
+
+void Game::AddListener(IGameListener* gameListener)
+{
+	m_listeners.emplace_back(gameListener);
+}
+
+
+void Game::RemoveListener(IGameListener* gameListener)
+{
+	auto func = [gameListener](IGameListener* el)
+		{
+			return el == gameListener;
+		};
+	m_listeners.erase(std::remove_if(m_listeners.begin(), m_listeners.end(), func));
+}
+
+
+std::shared_ptr<IGame> IGame::Produce()
+{
+	return std::make_shared<IGame>();
 }

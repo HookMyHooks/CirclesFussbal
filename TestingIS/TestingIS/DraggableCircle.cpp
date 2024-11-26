@@ -44,10 +44,6 @@ void DraggableCircle::paint(QPainter* painter, const QStyleOptionGraphicsItem*, 
 /// any external factors (e.g., impulse or animation). This method ensures that the
 /// circle respects the scene boundaries and avoids overlapping with other items.
 /// </summary>
-/// <param name="targetPos">
-/// The new position to move the circle to. This position is calculated based on
-/// an external force or user interaction.
-/// </param>
 /// <remarks>
 /// This method can be used to integrate physics, collision detection, or smooth
 /// animations when moving the circle within the scene.

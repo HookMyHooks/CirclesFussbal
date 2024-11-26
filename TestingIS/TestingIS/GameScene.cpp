@@ -25,6 +25,16 @@
 /// scene->mousePressEvent(new QGraphicsSceneMouseEvent());
 /// </example>
 
+void GameScene::SetGame(std::shared_ptr<IGame> game)
+{
+    m_game = game;
+}
+
+void GameScene::OnWin()
+{
+    //win msg
+}
+
 void GameScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
     if (event->button() == Qt::LeftButton) {
