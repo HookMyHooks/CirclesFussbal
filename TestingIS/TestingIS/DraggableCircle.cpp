@@ -6,8 +6,6 @@ DraggableCircle::DraggableCircle(qreal x, qreal y, qreal width, QGraphicsItem* p
     m_velocity = QPointF(0, 0);
 }
 
-
-
 /// <summary>
 /// Defines the bounding rectangle of the circle item.
 /// This rectangle specifies the clickable and drawable area for the circle,
@@ -17,11 +15,9 @@ DraggableCircle::DraggableCircle(qreal x, qreal y, qreal width, QGraphicsItem* p
 /// A QRectF representing the bounds of the circle in local coordinates.
 /// The rectangle's dimensions are equal to the width and height of the circle.
 /// </returns>
-
 QRectF DraggableCircle::boundingRect() const
 {
     return QRectF(0, 0, m_width, m_height);
-
 }
 
 void DraggableCircle::setColor(const QColor& color)
@@ -35,9 +31,6 @@ void DraggableCircle::paint(QPainter* painter, const QStyleOptionGraphicsItem*, 
     painter->setBrush(m_color);
     painter->drawEllipse(0, 0, m_width, m_height);
 }
-
-
-
 
 /// <summary>
 /// Updates the position of the circle in the scene based on its current velocity or
@@ -54,6 +47,28 @@ void DraggableCircle::updatePosition()
 
     QGraphicsScene* scene = this->scene();
     if (scene) {
+        QRectF sceneRect = scene->sceneRect();
+
+        // Check for collision with the left and right borders
+        if (newPos.x() < sceneRect.left()) {
+            newPos.setX(sceneRect.left());
+            m_velocity.setX(-m_velocity.x());
+        }
+        else if (newPos.x() + m_width > sceneRect.right()) {
+            newPos.setX(sceneRect.right() - m_width);
+            m_velocity.setX(-m_velocity.x());
+        }
+
+        // Check for collision with the top and bottom borders
+        if (newPos.y() < sceneRect.top()) {
+            newPos.setY(sceneRect.top());
+            m_velocity.setY(-m_velocity.y());
+        }
+        else if (newPos.y() + m_height > sceneRect.bottom()) {
+            newPos.setY(sceneRect.bottom() - m_height);
+            m_velocity.setY(-m_velocity.y());
+        }
+
         for (QGraphicsItem* item : scene->items()) {
             if (item != this) {
                 DraggableCircle* otherCircle = dynamic_cast<DraggableCircle*>(item);
