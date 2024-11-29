@@ -54,7 +54,7 @@ void GameScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
                 QPointF impulse = initialMousePos - finalMousePos;
 
                 // Limit the impulse magnitude
-                const double maxSpeed = 20.0;
+                const double maxSpeed = 25.0;
                 double magnitude = std::sqrt(impulse.x() * impulse.x() + impulse.y() * impulse.y());
                 if (magnitude > maxSpeed) {
                     impulse *= maxSpeed / magnitude;

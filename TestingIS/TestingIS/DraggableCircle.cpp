@@ -89,7 +89,7 @@ void DraggableCircle::updatePosition()
     }
 
     // Apply friction to velocity
-    m_velocity *= 0.9;
+    m_velocity *= 0.94;
 
     // Update position
     setPos(newPos);
