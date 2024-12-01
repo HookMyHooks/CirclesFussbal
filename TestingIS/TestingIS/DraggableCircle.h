@@ -33,6 +33,10 @@ public:
 
     bool isBall() const;
 
+    void freezePosition();
+
+    void unfreezePosition();
+
 private:
     qreal m_width, m_height;
     QColor m_color;

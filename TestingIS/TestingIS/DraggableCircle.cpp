@@ -136,3 +136,15 @@ bool DraggableCircle::isBall() const
         return false;
     return m_isBall;
 }
+
+
+void DraggableCircle::freezePosition() {
+    m_velocity = QPointF(0, 0);  // Stop any ongoing movement
+    setFlag(QGraphicsItem::ItemIsMovable, false);  // Disable dragging
+    setFlag(QGraphicsItem::ItemIsFocusable, false);  // Prevent further focus
+}
+
+void DraggableCircle::unfreezePosition() {
+    setFlag(QGraphicsItem::ItemIsMovable, true);  // Re-enable dragging
+    setFlag(QGraphicsItem::ItemIsFocusable, true);  // Re-enable focus
+}

@@ -147,9 +147,9 @@ void GameScene::updateCircles()
                     mBox.setText("Goal left side");
                     mBox.exec();
                     m_leftGoalScored = true;  // Mark left goal as scored
-
-                    //instead of return -  reset position and update using API 
-                    return;
+                    circle->freezePosition();  // Freeze the ball
+                    //reset position and update using API 
+                    
                 }
 
                 // Check for a goal in the right goal area
@@ -158,9 +158,9 @@ void GameScene::updateCircles()
                     mBox.setText("Goal right side");
                     mBox.exec();
                     m_rightGoalScored = true; // Mark right goal as scored
-
-                    //instead of return -  reset position and update using API 
-                    return;
+                    circle->freezePosition();  // Freeze the ball
+                    // reset position and update using API 
+                    
                 }
 
             }
