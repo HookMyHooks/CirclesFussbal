@@ -99,6 +99,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="PlayerObjects.cpp" />
+    <ClCompile Include="TerrainObjects.cpp" />
     <QtRcc Include="TestingIS.qrc" />
     <QtUic Include="TestingIS.ui" />
     <ClCompile Include="DraggableCircle.cpp" />
@@ -118,6 +119,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerObjects.h" />
+    <ClInclude Include="TerrainObjects.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

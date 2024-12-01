@@ -2,6 +2,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include "PlayerObjects.h"
+#include "TerrainObjects.h"
 
 
 int main(int argc, char* argv[]) {
@@ -15,50 +16,8 @@ int main(int argc, char* argv[]) {
     scene->SetGame(game);
 	scene->setSceneRect(-300, -300, 1200, 800);
 
-    // Draw a rectangle that matches the scene's borders
-    QGraphicsRectItem* borderRect = new QGraphicsRectItem(scene->sceneRect());
-    borderRect->setPen(QPen(Qt::black, 5)); // Set the pen color and width
-    borderRect->setBrush(QBrush(QColor("#1F4529"))); // Set the brush color to green
-    scene->addItem(borderRect);
-
-	// Draw a white line separating the two halves of the fussball table
-    qreal midX = scene->sceneRect().left() + scene->sceneRect().width() / 2;
-    QGraphicsLineItem* middleLine = new QGraphicsLineItem(midX, scene->sceneRect().top(), midX, scene->sceneRect().bottom());
-    middleLine->setPen(QPen(Qt::white, 5)); // Set the pen color and width
-    scene->addItem(middleLine);
-
-
-    // Add a transparent ellipse with white edges in the middle of the scene
-    qreal midY = scene->sceneRect().top() + scene->sceneRect().height() / 2;
-    QGraphicsEllipseItem* middleEllipse = new QGraphicsEllipseItem(midX - 50, midY - 50, 100, 100); // x, y, width, height
-    middleEllipse->setBrush(QBrush(Qt::transparent)); // Set the brush color to transparent
-    middleEllipse->setPen(QPen(Qt::white, 5)); // Set the pen color to white and width
-    scene->addItem(middleEllipse);
-
-    qreal goalWidth = 100;
-    qreal goalHeight = 200;
-    QGraphicsRectItem* leftGoal = new QGraphicsRectItem(scene->sceneRect().left(), midY - goalHeight / 2, goalWidth, goalHeight);
-    leftGoal->setPen(QPen(Qt::white, 5)); // Set the pen color to white and width
-    leftGoal->setBrush(QBrush(Qt::transparent)); // Set the brush color to transparent
-    scene->addItem(leftGoal);
-
-    QGraphicsRectItem* rightGoal = new QGraphicsRectItem(scene->sceneRect().right() - goalWidth, midY - goalHeight / 2, goalWidth, goalHeight);
-    rightGoal->setPen(QPen(Qt::white, 5)); // Set the pen color to white and width
-    rightGoal->setBrush(QBrush(Qt::transparent)); // Set the brush color to transparent
-    scene->addItem(rightGoal);
-
-    qreal bigRectWidth = 150;
-    qreal bigRectHeight = 300;
-    QGraphicsRectItem* leftBigRect = new QGraphicsRectItem(scene->sceneRect().left(), midY - bigRectHeight / 2, bigRectWidth, bigRectHeight);
-    leftBigRect->setPen(QPen(Qt::white, 5)); // Set the pen color to white and width
-    leftBigRect->setBrush(QBrush(Qt::transparent)); // Set the brush color to transparent
-    scene->addItem(leftBigRect);
-
-    QGraphicsRectItem* rightBigRect = new QGraphicsRectItem(scene->sceneRect().right() - bigRectWidth, midY - bigRectHeight / 2, bigRectWidth, bigRectHeight);
-    rightBigRect->setPen(QPen(Qt::white, 5)); // Set the pen color to white and width
-    rightBigRect->setBrush(QBrush(Qt::transparent)); // Set the brush color to transparent
-    scene->addItem(rightBigRect);
-
+    
+    TerrainObjects terrain(scene);
     PlayerObjects plm(scene);
     
 

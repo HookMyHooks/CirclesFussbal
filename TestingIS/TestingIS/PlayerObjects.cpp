@@ -45,7 +45,7 @@ PlayerObjects::PlayerObjects(GameScene* gameScene)
 #pragma endregion
 
 	//ball
-	m_ball = new DraggableCircle(280, 84, 50,true);
+	m_ball = new DraggableCircle(279, 79, 50,true);
 	
 
 	for (size_t i = 0; i < m_players.size(); i++)
