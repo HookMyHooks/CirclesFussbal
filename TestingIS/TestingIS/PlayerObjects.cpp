@@ -54,3 +54,8 @@ PlayerObjects::PlayerObjects(GameScene* gameScene)
 		gameScene->addItem(m_ball);
 	}
 }
+
+DraggableCircle* PlayerObjects::GetBall()
+{
+	return m_ball;
+}

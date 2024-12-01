@@ -22,6 +22,9 @@ public:
 
     void OnWin() override;
 
+    void SetLeftGoalPtr(QGraphicsRectItem* leftGoal);
+    void SetRightGoalPtr(QGraphicsRectItem* rightGoal);
+
 protected:
     bool isDragging = false;
     QPointF initialMousePos;
@@ -39,5 +42,16 @@ private slots:
 
 private:
     std::shared_ptr<IGame> m_game;
+    QGraphicsRectItem* m_leftGoal = nullptr;
+    QGraphicsRectItem* m_rightGoal = nullptr;
+
+    bool m_leftGoalScored = false;  // Tracks if a left-side goal has been scored
+    bool m_rightGoalScored = false; // Tracks if a right-side goal has been scored
+
+
+
+    bool isBallInLeftGoal( const DraggableCircle* ball, const QPointF& topLeft, const QPointF& bottomLeft);
+    bool isBallInRightGoal(const DraggableCircle* ball, const QPointF& topRight, const QPointF& bottomRight);
+
 
 };

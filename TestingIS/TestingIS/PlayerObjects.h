@@ -13,5 +13,7 @@ private:
 public:
 	PlayerObjects(GameScene* gameScene);
 	void ResetPositions();
+	DraggableCircle* GetBall();
+
 };
 

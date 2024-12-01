@@ -1,5 +1,5 @@
 #include "GameScene.h"
-
+#include "QMessageBox"
 
 
 /// <summary>
@@ -33,6 +33,16 @@ void GameScene::SetGame(std::shared_ptr<IGame> game)
 void GameScene::OnWin()
 {
     //win msg
+}
+
+void GameScene::SetLeftGoalPtr(QGraphicsRectItem* leftGoal)
+{
+    m_leftGoal = leftGoal;
+}
+
+void GameScene::SetRightGoalPtr(QGraphicsRectItem* rightGoal)
+{
+    m_rightGoal = rightGoal;
 }
 
 void GameScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
@@ -86,12 +96,76 @@ void GameScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
     QGraphicsScene::mouseReleaseEvent(event);
 }
 
+bool GameScene::isBallInLeftGoal(const DraggableCircle* ball, const QPointF& topLeft, const QPointF& bottomLeft)
+{
+    // Ball's position
+    qreal ballCenterX = ball->pos().x() + ball->boundingRect().width() / 2;
+    qreal ballCenterY = ball->pos().y() + ball->boundingRect().height() / 2;
+
+    // Check if the ball's center is within the goal's vertical range
+    if (ballCenterY >= topLeft.y() && ballCenterY <= bottomLeft.y()) {
+        // Check if the ball's center crosses the left edge
+        if (ballCenterX <= topLeft.x()+ 30) {
+            return true; // Ball is in the left goal
+        }
+    }
+    return false;
+}
+
+bool GameScene::isBallInRightGoal(const DraggableCircle* ball, const QPointF& topRight, const QPointF& bottomRight)
+{
+    // Ball's position
+    qreal ballCenterX = ball->pos().x() + ball->boundingRect().width() / 2;
+    qreal ballCenterY = ball->pos().y() + ball->boundingRect().height() / 2;
+
+    // Check if the ball's center is within the goal's vertical range
+    if (ballCenterY >= topRight.y()&& ballCenterY <= bottomRight.y()) {
+        // Check if the ball's center crosses the right edge
+        if (ballCenterX >= topRight.x()-30) {
+            return true; // Ball is in the right goal
+        }
+    }
+    return false;
+}
+
+
 void GameScene::updateCircles()
 {
     for (QGraphicsItem* item : items()) {
         DraggableCircle* circle = dynamic_cast<DraggableCircle*>(item);
         if (circle) {
-            circle->updatePosition();
+            if (circle->isBall())
+            {
+                QPointF leftTopLeft = m_leftGoal->mapToScene(m_leftGoal->boundingRect().topLeft());
+                QPointF leftBottomLeft = m_leftGoal->mapToScene(m_leftGoal->boundingRect().bottomLeft());
+                QPointF rightTopRight = m_rightGoal->mapToScene(m_rightGoal->boundingRect().topRight());
+                QPointF rightBottomRight = m_rightGoal->mapToScene(m_rightGoal->boundingRect().bottomRight());
+
+                // Check for a goal in the left goal area
+                if (!m_leftGoalScored && isBallInLeftGoal(circle, leftTopLeft, leftBottomLeft)) {
+                    QMessageBox mBox;
+                    mBox.setText("Goal left side");
+                    mBox.exec();
+                    m_leftGoalScored = true;  // Mark left goal as scored
+
+                    //instead of return -  reset position and update using API 
+                    return;
+                }
+
+                // Check for a goal in the right goal area
+                if (!m_rightGoalScored && isBallInRightGoal(circle, rightTopRight, rightBottomRight)) {
+                    QMessageBox mBox;
+                    mBox.setText("Goal right side");
+                    mBox.exec();
+                    m_rightGoalScored = true; // Mark right goal as scored
+
+                    //instead of return -  reset position and update using API 
+                    return;
+                }
+
+            }
+            if (!m_rightGoalScored || !m_leftGoalScored)
+                circle->updatePosition();
         }
     }
 }

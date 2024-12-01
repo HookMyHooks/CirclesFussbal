@@ -18,6 +18,8 @@ private:
 	QGraphicsRectItem* rightGoal;
 	QGraphicsRectItem* leftBigRect;
 	QGraphicsRectItem* rightBigRect;
+	qreal bigRectWidth = 150;
+	qreal bigRectHeight = 300;
 
 };
 
