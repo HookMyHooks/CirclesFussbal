@@ -18,7 +18,7 @@ int main(int argc, char* argv[]) {
     // Draw a rectangle that matches the scene's borders
     QGraphicsRectItem* borderRect = new QGraphicsRectItem(scene->sceneRect());
     borderRect->setPen(QPen(Qt::black, 5)); // Set the pen color and width
-    borderRect->setBrush(QBrush(Qt::green)); // Set the brush color to green
+    borderRect->setBrush(QBrush(QColor("#1F4529"))); // Set the brush color to green
     scene->addItem(borderRect);
 
 	// Draw a white line separating the two halves of the fussball table
