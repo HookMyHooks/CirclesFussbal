@@ -41,6 +41,12 @@ void GameScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
         if (!isDragging) {
             QGraphicsItem* item = itemAt(event->scenePos(), QTransform());
             activeCircle = dynamic_cast<DraggableCircle*>(item);
+            //check if the clicked thing is ball first and disable functionality
+            if (activeCircle->isBall())
+            {
+                activeCircle = nullptr;
+                return;
+            }
 
             if (activeCircle) {
                 isDragging = true;
@@ -54,7 +60,7 @@ void GameScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
                 QPointF impulse = initialMousePos - finalMousePos;
 
                 // Limit the impulse magnitude
-                const double maxSpeed = 25.0;
+                const double maxSpeed = 20.0;
                 double magnitude = std::sqrt(impulse.x() * impulse.x() + impulse.y() * impulse.y());
                 if (magnitude > maxSpeed) {
                     impulse *= maxSpeed / magnitude;

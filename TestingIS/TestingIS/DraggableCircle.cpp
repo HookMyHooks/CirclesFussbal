@@ -1,9 +1,10 @@
 #include "DraggableCircle.h"
 
-DraggableCircle::DraggableCircle(qreal x, qreal y, qreal width, QGraphicsItem* parent)
+DraggableCircle::DraggableCircle(qreal x, qreal y, qreal width, bool isBall, QGraphicsItem* parent)
     : QGraphicsObject(parent), m_width(width), m_height(width) {
     setPos(x, y);
     m_velocity = QPointF(0, 0);
+    m_isBall = isBall;
 }
 
 /// <summary>
@@ -89,7 +90,7 @@ void DraggableCircle::updatePosition()
     }
 
     // Apply friction to velocity
-    m_velocity *= 0.94;
+    m_velocity *= 0.96;
 
     // Update position
     setPos(newPos);
@@ -127,4 +128,11 @@ void DraggableCircle::handleCollision(DraggableCircle* otherCircle)
     QPointF correction = collisionNormal * (overlap / 2);
     setPos(pos() + correction);
     otherCircle->setPos(otherCircle->pos() - correction);
+}
+
+bool DraggableCircle::isBall() const
+{
+    if (this == nullptr)
+        return false;
+    return m_isBall;
 }

@@ -1,8 +1,7 @@
 #include <QApplication>
 #include <QGraphicsScene>
 #include <QGraphicsView>
-#include "DraggableCircle.h"  
-#include "GameScene.h"
+#include "PlayerObjects.h"
 
 
 int main(int argc, char* argv[]) {
@@ -60,18 +59,8 @@ int main(int argc, char* argv[]) {
     rightBigRect->setBrush(QBrush(Qt::transparent)); // Set the brush color to transparent
     scene->addItem(rightBigRect);
 
-
-    DraggableCircle* circle1 = new DraggableCircle(50, 50, 50); // x, y, radius
-    DraggableCircle* circle2 = new DraggableCircle(200, 200, 50);
-
-    circle1->setColor(Qt::red);
-    circle2->setColor(Qt::blue);
-
-
-
-    scene->addItem(circle1);
-    scene->addItem(circle2);
-
+    PlayerObjects plm(scene);
+    
 
 
     // Create the view

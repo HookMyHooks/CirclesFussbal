@@ -12,7 +12,7 @@ class DraggableCircle: public QGraphicsObject {
         Q_PROPERTY(QPointF pos READ pos WRITE setPos)
 
 public:
-    DraggableCircle(qreal x, qreal y, qreal width, QGraphicsItem* parent = nullptr);
+    DraggableCircle(qreal x, qreal y, qreal width, bool isBall, QGraphicsItem* parent = nullptr);
 
     QRectF boundingRect() const override;
 
@@ -31,8 +31,11 @@ public:
         m_velocity += impulse;
     }
 
+    bool isBall() const;
+
 private:
     qreal m_width, m_height;
     QColor m_color;
     QPointF m_velocity;
+    bool m_isBall;
 };
