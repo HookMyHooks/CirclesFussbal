@@ -142,13 +142,11 @@ void GameScene::ResetBoard()
 
 
     m_ResetFunction(this);
+    clearScene();
     DraggableCircle* ball = nullptr;
     std::vector<DraggableCircle*> players;
 
-	for (size_t i = 0; i < items().size(); i++)
-	{
-		this->removeItem(items().at(i));
-	}
+	
     DraggableCircle* redDef1 = new DraggableCircle(-80, -160, 60, false);
     DraggableCircle* redDef2 = new DraggableCircle(-80, 240, 60, false);
     DraggableCircle* redDef3 = new DraggableCircle(-80, 40, 60, false);
@@ -245,3 +243,18 @@ void GameScene::updateCircles() {
         QTimer::singleShot(0, this, &GameScene::ResetBoard);
     }
 }
+
+
+
+void GameScene::clearScene() {
+    QList<QGraphicsItem*> itemsToRemove = items();
+    for (QGraphicsItem* item : itemsToRemove) {
+        // Check if the item is a DraggableCircle and remove it
+        DraggableCircle* circle = dynamic_cast<DraggableCircle*>(item);
+        if (circle) {
+            removeItem(circle);
+            delete circle; // Free memory
+        }
+    }
+}
+

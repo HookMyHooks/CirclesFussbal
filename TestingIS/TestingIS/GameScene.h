@@ -59,4 +59,7 @@ private:
 
     void ResetBoard();
 
+    void clearScene();
+
+    
 };
