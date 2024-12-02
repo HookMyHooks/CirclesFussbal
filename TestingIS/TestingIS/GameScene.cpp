@@ -194,11 +194,11 @@ void GameScene::ResetBoard()
     m_rightGoalScored = false;
 
 
+    this->addItem(ball);
 
     for (size_t i = 0; i < players.size(); i++)
     {
         this->addItem(players[i]);
-        this->addItem(ball);
     }
 }
 
