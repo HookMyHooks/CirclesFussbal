@@ -42,7 +42,7 @@ void Game::UpdateScore(EPlayer scoredOn)
 	if (scoredOn == EPlayer::PLAYER1)
 		m_scorePlayerTwo++;
 	else
-		m_scorePlayerTwo;;
+		m_scorePlayerOne++;
 }
 
 EPlayer Game::GetCurrentPlayer() const
@@ -63,11 +63,12 @@ void Game::AddListener(IGameListener* gameListener)
 
 void Game::RemoveListener(IGameListener* gameListener)
 {
-	//auto func = [gameListener](IGameListener* el)
-	//	{
-	//		return el == gameListener;
-	//	};
-	//m_listeners.erase(std::remove_if(m_listeners.begin(), m_listeners.end(), func));
+	auto func = [gameListener](IGameWeakPtr el)
+		{
+			auto sp = el.lock();
+			return !sp || gameListener == sp.get();
+		};
+	m_listeners.erase(std::remove_if(m_listeners.begin(), m_listeners.end(), func));
 }
 
 

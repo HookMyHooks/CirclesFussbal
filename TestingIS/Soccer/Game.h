@@ -25,11 +25,12 @@ private:
 	void NotifyListenersOnWin() const;
 
 
+
 public:
 
 	Game();
 
-	void SwitchPlayers();
+	void SwitchPlayers() override;
 	//bool GoalScored(const float& x, const float& y);
 	void ResetGame();
 	void UpdateScore(EPlayer scoredOn);

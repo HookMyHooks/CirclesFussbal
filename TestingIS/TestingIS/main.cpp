@@ -18,8 +18,8 @@ int main(int argc, char* argv[]) {
 
     
     TerrainObjects terrain(scene);
-    PlayerObjects plm(scene);
-    
+    PlayerObjects player(scene);
+    scene->SetResetFunction(std::bind(&PlayerObjects::ResetPositions, &player, scene));
 
 
     // Create the view

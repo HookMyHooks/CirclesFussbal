@@ -7,6 +7,8 @@
 #include <QDebug>
 #include <cmath>
 
+#include "EPlayer.h"
+
 class DraggableCircle: public QGraphicsObject {
     Q_OBJECT
         Q_PROPERTY(QPointF pos READ pos WRITE setPos)
@@ -34,12 +36,14 @@ public:
     bool isBall() const;
 
     void freezePosition();
-
     void unfreezePosition();
+
+    EPlayer GetPlayer() const;
 
 private:
     qreal m_width, m_height;
     QColor m_color;
     QPointF m_velocity;
     bool m_isBall;
+    EPlayer m_player;
 };

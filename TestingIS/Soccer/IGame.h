@@ -15,8 +15,8 @@ public:
 
 	virtual void AddListener(IGameListener* gameListener) = 0;
 	virtual void RemoveListener(IGameListener* gameListener) = 0;
-
 	
+	virtual void SwitchPlayers() = 0;
 
 };
 

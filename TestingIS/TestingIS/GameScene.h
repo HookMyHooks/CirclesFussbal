@@ -25,6 +25,8 @@ public:
     void SetLeftGoalPtr(QGraphicsRectItem* leftGoal);
     void SetRightGoalPtr(QGraphicsRectItem* rightGoal);
 
+    void SetResetFunction(std::function<void(GameScene*)> ResetFunction);
+
 protected:
     bool isDragging = false;
     QPointF initialMousePos;
@@ -44,6 +46,7 @@ private:
     std::shared_ptr<IGame> m_game;
     QGraphicsRectItem* m_leftGoal = nullptr;
     QGraphicsRectItem* m_rightGoal = nullptr;
+    std::function<void(GameScene*)> m_ResetFunction;
 
     bool m_leftGoalScored = false;  // Tracks if a left-side goal has been scored
     bool m_rightGoalScored = false; // Tracks if a right-side goal has been scored
@@ -53,5 +56,6 @@ private:
     bool isBallInLeftGoal( const DraggableCircle* ball, const QPointF& topLeft, const QPointF& bottomLeft);
     bool isBallInRightGoal(const DraggableCircle* ball, const QPointF& topRight, const QPointF& bottomRight);
 
+    void ResetBoard();
 
 };

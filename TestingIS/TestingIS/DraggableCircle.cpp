@@ -24,6 +24,8 @@ QRectF DraggableCircle::boundingRect() const
 void DraggableCircle::setColor(const QColor& color)
 {
     m_color = color;
+    if (m_color == Qt::red) m_player = EPlayer::PLAYER1;
+    else m_player = EPlayer::PLAYER2;
     update();
 }
 
@@ -148,3 +150,9 @@ void DraggableCircle::unfreezePosition() {
     setFlag(QGraphicsItem::ItemIsMovable, true);  // Re-enable dragging
     setFlag(QGraphicsItem::ItemIsFocusable, true);  // Re-enable focus
 }
+
+EPlayer DraggableCircle::GetPlayer() const
+{
+    return m_player;
+}
+

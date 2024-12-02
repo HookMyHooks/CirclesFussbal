@@ -45,14 +45,20 @@ void GameScene::SetRightGoalPtr(QGraphicsRectItem* rightGoal)
     m_rightGoal = rightGoal;
 }
 
+void GameScene::SetResetFunction(std::function<void(GameScene*)> ResetFunction)
+{
+    m_ResetFunction = ResetFunction;
+}
+
 void GameScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
     if (event->button() == Qt::LeftButton) {
         if (!isDragging) {
             QGraphicsItem* item = itemAt(event->scenePos(), QTransform());
             activeCircle = dynamic_cast<DraggableCircle*>(item);
+            
             //check if the clicked thing is ball first and disable functionality
-            if (activeCircle->isBall())
+            if (activeCircle && (activeCircle->isBall() || (m_game->GetCurrentPlayer() != activeCircle->GetPlayer())))
             {
                 activeCircle = nullptr;
                 return;
@@ -63,6 +69,7 @@ void GameScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
                 initialMousePos = event->scenePos();
                 //activeCircle->setCursor(Qt::ClosedHandCursor); // Set cursor using Qt::CursorShape
             }
+
         }
         else {
             if (activeCircle) {
@@ -81,6 +88,8 @@ void GameScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
 
                 isDragging = false;
                 activeCircle = nullptr;
+
+                m_game->SwitchPlayers();
             }
         }
     }
@@ -128,6 +137,67 @@ bool GameScene::isBallInRightGoal(const DraggableCircle* ball, const QPointF& to
     return false;
 }
 
+void GameScene::ResetBoard()
+{
+
+
+    /*m_ResetFunction(this);*/
+    DraggableCircle* ball = nullptr;
+    std::vector<DraggableCircle*> players;
+
+	for (size_t i = 0; i < items().size(); i++)
+	{
+		this->removeItem(items().at(i));
+	}
+    DraggableCircle* redDef1 = new DraggableCircle(-80, -160, 60, false);
+    DraggableCircle* redDef2 = new DraggableCircle(-80, 240, 60, false);
+    DraggableCircle* redDef3 = new DraggableCircle(-80, 40, 60, false);
+    redDef1->setColor(Qt::red);
+    redDef2->setColor(Qt::red);
+    redDef3->setColor(Qt::red);
+    players.emplace_back(redDef1);
+    players.emplace_back(redDef2);
+    players.emplace_back(redDef3);
+    //Att
+    DraggableCircle* redAtt1 = new DraggableCircle(120, -80, 60, false);
+    DraggableCircle* redAtt2 = new DraggableCircle(120, 160, 60, false);
+    redAtt1->setColor(Qt::red);
+    redAtt2->setColor(Qt::red);
+    players.emplace_back(redAtt1);
+    players.emplace_back(redAtt2);
+
+
+    //Blue Team
+    //Def
+    DraggableCircle* blueAtt1 = new DraggableCircle(450, 160, 60, false);
+    DraggableCircle* blueAtt2 = new DraggableCircle(450, -80, 60, false);
+    blueAtt1->setColor(Qt::blue);
+    blueAtt2->setColor(Qt::blue);
+    players.emplace_back(blueAtt1);
+    players.emplace_back(blueAtt2);
+    //Att
+    DraggableCircle* blueDef1 = new DraggableCircle(620, -180, 60, false);
+    DraggableCircle* blueDef2 = new DraggableCircle(620, 40, 60, false);
+    DraggableCircle* blueDef3 = new DraggableCircle(620, 240, 60, false);
+    blueDef1->setColor(Qt::blue);
+    blueDef2->setColor(Qt::blue);
+    blueDef3->setColor(Qt::blue);
+    players.emplace_back(blueDef1);
+    players.emplace_back(blueDef2);
+    players.emplace_back(blueDef3);
+#pragma endregion
+
+    //ball
+    ball = new DraggableCircle(279, 79, 50, true);
+
+
+    for (size_t i = 0; i < players.size(); i++)
+    {
+        this->addItem(players[i]);
+        this->addItem(ball);
+    }
+}
+
 
 void GameScene::updateCircles()
 {
@@ -149,7 +219,8 @@ void GameScene::updateCircles()
                     m_leftGoalScored = true;  // Mark left goal as scored
                     circle->freezePosition();  // Freeze the ball
                     //reset position and update using API 
-                    
+                    //ResetBoard();
+                    //return;
                 }
 
                 // Check for a goal in the right goal area
@@ -160,12 +231,16 @@ void GameScene::updateCircles()
                     m_rightGoalScored = true; // Mark right goal as scored
                     circle->freezePosition();  // Freeze the ball
                     // reset position and update using API 
-                    
+/*                    ResetBoard();
+                    return*/;
                 }
+
 
             }
             if (!m_rightGoalScored || !m_leftGoalScored)
                 circle->updatePosition();
+            //else
+            //    ResetBoard();
         }
     }
 }
