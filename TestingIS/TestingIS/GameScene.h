@@ -17,6 +17,7 @@ public:
         timer->start(16); // ~60 FPS
     }
 
+    ~GameScene() = default;
 
     void SetGame(std::shared_ptr<IGame> game);
 

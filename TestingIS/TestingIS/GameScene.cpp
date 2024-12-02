@@ -141,7 +141,7 @@ void GameScene::ResetBoard()
 {
 
 
-    /*m_ResetFunction(this);*/
+    m_ResetFunction(this);
     DraggableCircle* ball = nullptr;
     std::vector<DraggableCircle*> players;
 
@@ -191,6 +191,12 @@ void GameScene::ResetBoard()
     ball = new DraggableCircle(279, 79, 50, true);
 
 
+    //goals
+    m_leftGoalScored = false;
+    m_rightGoalScored = false;
+
+
+
     for (size_t i = 0; i < players.size(); i++)
     {
         this->addItem(players[i]);
@@ -199,48 +205,43 @@ void GameScene::ResetBoard()
 }
 
 
-void GameScene::updateCircles()
-{
+void GameScene::updateCircles() {
+    bool resetTriggered = false;
+
     for (QGraphicsItem* item : items()) {
         DraggableCircle* circle = dynamic_cast<DraggableCircle*>(item);
         if (circle) {
-            if (circle->isBall())
-            {
+            if (circle->isBall()) {
                 QPointF leftTopLeft = m_leftGoal->mapToScene(m_leftGoal->boundingRect().topLeft());
                 QPointF leftBottomLeft = m_leftGoal->mapToScene(m_leftGoal->boundingRect().bottomLeft());
                 QPointF rightTopRight = m_rightGoal->mapToScene(m_rightGoal->boundingRect().topRight());
                 QPointF rightBottomRight = m_rightGoal->mapToScene(m_rightGoal->boundingRect().bottomRight());
 
-                // Check for a goal in the left goal area
                 if (!m_leftGoalScored && isBallInLeftGoal(circle, leftTopLeft, leftBottomLeft)) {
                     QMessageBox mBox;
                     mBox.setText("Goal left side");
                     mBox.exec();
-                    m_leftGoalScored = true;  // Mark left goal as scored
-                    circle->freezePosition();  // Freeze the ball
-                    //reset position and update using API 
-                    //ResetBoard();
-                    //return;
+                    m_leftGoalScored = true;
+                    circle->freezePosition();
+                    resetTriggered = true;
                 }
 
-                // Check for a goal in the right goal area
                 if (!m_rightGoalScored && isBallInRightGoal(circle, rightTopRight, rightBottomRight)) {
                     QMessageBox mBox;
                     mBox.setText("Goal right side");
                     mBox.exec();
-                    m_rightGoalScored = true; // Mark right goal as scored
-                    circle->freezePosition();  // Freeze the ball
-                    // reset position and update using API 
-/*                    ResetBoard();
-                    return*/;
+                    m_rightGoalScored = true;
+                    circle->freezePosition();
+                    resetTriggered = true;
                 }
-
-
             }
-            if (!m_rightGoalScored || !m_leftGoalScored)
+            if (!m_rightGoalScored && !m_leftGoalScored) {
                 circle->updatePosition();
-            //else
-            //    ResetBoard();
+            }
         }
+    }
+
+    if (resetTriggered) {
+        QTimer::singleShot(0, this, &GameScene::ResetBoard);
     }
 }

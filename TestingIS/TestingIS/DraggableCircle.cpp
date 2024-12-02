@@ -100,36 +100,44 @@ void DraggableCircle::updatePosition()
 
 void DraggableCircle::handleCollision(DraggableCircle* otherCircle)
 {
-    // Calculate collision vector
-    QPointF collisionVector = pos() - otherCircle->pos();
-    qreal distance = std::sqrt(collisionVector.x() * collisionVector.x() +
-        collisionVector.y() * collisionVector.y());
-    QPointF collisionNormal = collisionVector / distance;
 
-    // Relative velocity
-    QPointF relativeVelocity = m_velocity - otherCircle->m_velocity;
+    qDebug() << "Number of items in the scene:" << scene()->items().size();
 
-    // Velocity along the normal
-    qreal velocityAlongNormal = QPointF::dotProduct(relativeVelocity, collisionNormal);
+    qDebug() << "Self position:" << pos() << ", Other position:" << otherCircle->pos();
 
-    // Ignore if moving away
-    if (velocityAlongNormal > 0) return;
+    if (pos() != otherCircle->pos())
+    {
+        // Calculate collision vector
+        QPointF collisionVector = pos() - otherCircle->pos();
+        qreal distance = std::sqrt(collisionVector.x() * collisionVector.x() +
+            collisionVector.y() * collisionVector.y());
+        QPointF collisionNormal = collisionVector / distance;
 
-    // Calculate impulse
-    qreal restitution = 1.0; // Perfectly elastic collision
-    qreal impulseMagnitude = -(1 + restitution) * velocityAlongNormal / 2; // Equal mass
+        // Relative velocity
+        QPointF relativeVelocity = m_velocity - otherCircle->m_velocity;
 
-    QPointF impulse = impulseMagnitude * collisionNormal;
+        // Velocity along the normal
+        qreal velocityAlongNormal = QPointF::dotProduct(relativeVelocity, collisionNormal);
 
-    // Update velocities
-    m_velocity += impulse;
-    otherCircle->m_velocity -= impulse;
+        // Ignore if moving away
+        if (velocityAlongNormal > 0) return;
 
-    // Resolve overlap
-    qreal overlap = (m_width / 2 + otherCircle->m_width / 2) - distance;
-    QPointF correction = collisionNormal * (overlap / 2);
-    setPos(pos() + correction);
-    otherCircle->setPos(otherCircle->pos() - correction);
+        // Calculate impulse
+        qreal restitution = 1.0; // Perfectly elastic collision
+        qreal impulseMagnitude = -(1 + restitution) * velocityAlongNormal / 2; // Equal mass
+
+        QPointF impulse = impulseMagnitude * collisionNormal;
+
+        // Update velocities
+        m_velocity += impulse;
+        otherCircle->m_velocity -= impulse;
+
+        // Resolve overlap
+        qreal overlap = (m_width / 2 + otherCircle->m_width / 2) - distance;
+        QPointF correction = collisionNormal * (overlap / 2);
+        setPos(pos() + correction);
+        otherCircle->setPos(otherCircle->pos() - correction);
+    }
 }
 
 bool DraggableCircle::isBall() const
