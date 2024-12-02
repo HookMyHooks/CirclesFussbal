@@ -21,16 +21,17 @@ private:
 	std::vector<std::shared_ptr<IGameListener>> m_listeners; 
 
 
-	//Listeners
-	void NotifyListenersOnWin() const;
-
+	
 
 
 public:
 
+	//Listeners
+	void NotifyListenersOnWin() const;
+
 	Game();
 
-	void SwitchPlayers() override;
+	void SwitchPlayers();
 	//bool GoalScored(const float& x, const float& y);
 	void ResetGame();
 	void UpdateScore(EPlayer scoredOn);
