@@ -1,7 +1,6 @@
 #include "GameScene.h"
 #include "QMessageBox"
 
-
 /// <summary>
 /// Handles mouse press events at the scene level to enable a drag-and-release movement
 /// mechanic for draggable circles. This method determines whether the user has clicked
@@ -32,7 +31,7 @@ void GameScene::SetGame(std::shared_ptr<IGame> game)
 
 void GameScene::OnWin()
 {
-    //win msg
+   
 }
 
 void GameScene::SetLeftGoalPtr(QGraphicsRectItem* leftGoal)
@@ -49,7 +48,6 @@ void GameScene::SetResetFunction(std::function<void(GameScene*)> ResetFunction)
 {
     m_ResetFunction = ResetFunction;
 }
-
 void GameScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
     if (event->button() == Qt::LeftButton) {

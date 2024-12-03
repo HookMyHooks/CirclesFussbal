@@ -4,7 +4,7 @@
 
 #include "EPlayer.h"
 #include "IGame.h"
-
+#include "IGameListener.h"
 class Game : public IGame
 {
 private:
@@ -18,30 +18,27 @@ private:
 	uint16_t m_scorePlayerOne;
 	uint16_t m_scorePlayerTwo;
 	
-	std::vector<std::shared_ptr<IGameListener>> m_listeners; 
+	std::vector<std::weak_ptr<IGameListener>> m_listeners;
 
-
+	
 	
 
 
 public:
 
-	//Listeners
-	void NotifyListenersOnWin() const;
-
 	Game();
 
-	void SwitchPlayers();
-	//bool GoalScored(const float& x, const float& y);
-	void ResetGame();
-	void UpdateScore(EPlayer scoredOn);
+	void SwitchPlayers() override;
+	void ResetGame() override;
+	void UpdateScore(EPlayer scoredOn) override;
 
 	EPlayer GetCurrentPlayer() const override;
 	std::vector<EPlayer> GetPlayerObjects() const override;
 
-
 	void AddListener(IGameListener* gameListener) override;
 	void RemoveListener(IGameListener* gameListener) override;
+
+	void NotifyListenersOnWin() override;
 
 };
 

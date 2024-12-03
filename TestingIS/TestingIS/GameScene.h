@@ -5,6 +5,7 @@
 #include <QDebug>
 #include "DraggableCircle.h"
 #include "IGame.h"
+#include "IGameListener.h"
 
 class GameScene : public QGraphicsScene, public IGameListener {
     Q_OBJECT
@@ -16,13 +17,9 @@ public:
         connect(timer, &QTimer::timeout, this, &GameScene::updateCircles);
         timer->start(16); // ~60 FPS
     }
-
-    ~GameScene() = default;
-
+    ~GameScene() override = default;
     void SetGame(std::shared_ptr<IGame> game);
-
     void OnWin() override;
-
     void SetLeftGoalPtr(QGraphicsRectItem* leftGoal);
     void SetRightGoalPtr(QGraphicsRectItem* rightGoal);
 

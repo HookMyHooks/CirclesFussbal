@@ -1,10 +1,10 @@
 #include "Game.h"
 
-void Game::NotifyListenersOnWin() const
-{
-	for (auto it : m_listeners)
-	{
-		it->OnWin();
+void Game::NotifyListenersOnWin() {
+	for (const auto& weakListener : m_listeners) {
+		if (auto listener = weakListener.lock()) {
+			listener->OnWin();
+		}
 	}
 }
 
@@ -30,19 +30,22 @@ void Game::SwitchPlayers()
 //	}
 //}
 
-void Game::ResetGame()
-{
+void Game::ResetGame() {
+	m_playerObjects.clear();
 	m_currentPlayer = EPlayer::PLAYER1;
-	m_scorePlayerOne = m_scorePlayerTwo = 0;
+	m_scorePlayerOne = 0;
+	m_scorePlayerTwo = 0;
+	m_listeners.clear();
 }
 
 
-void Game::UpdateScore(EPlayer scoredOn)
-{
-	if (scoredOn == EPlayer::PLAYER1)
-		m_scorePlayerTwo++;
-	else
-		m_scorePlayerOne++;
+void Game::UpdateScore(EPlayer scoredOn) {
+	if (scoredOn == EPlayer::PLAYER1) {
+		++m_scorePlayerTwo;
+	}
+	else if (scoredOn == EPlayer::PLAYER2) {
+		++m_scorePlayerOne;
+	}
 }
 
 EPlayer Game::GetCurrentPlayer() const
@@ -50,25 +53,23 @@ EPlayer Game::GetCurrentPlayer() const
 	return m_currentPlayer;
 }
 
-std::vector<EPlayer> Game::GetPlayerObjects() const
-{
+std::vector<EPlayer> Game::GetPlayerObjects() const {
 	return m_playerObjects;
 }
 
-void Game::AddListener(IGameListener* gameListener)
-{
-	m_listeners.emplace_back(gameListener);
+void Game::AddListener(IGameListener* gameListener) {
+	m_listeners.emplace_back(std::shared_ptr<IGameListener>(gameListener));
 }
 
 
-void Game::RemoveListener(IGameListener* gameListener)
-{
-	auto func = [gameListener](IGameWeakPtr el)
-		{
-			auto sp = el.lock();
-			return !sp || gameListener == sp.get();
-		};
-	m_listeners.erase(std::remove_if(m_listeners.begin(), m_listeners.end(), func));
+void Game::RemoveListener(IGameListener* gameListener) {
+	m_listeners.erase(
+		std::remove_if(m_listeners.begin(), m_listeners.end(),
+			[gameListener](const std::weak_ptr<IGameListener>& weakPtr) {
+				auto sp = weakPtr.lock();
+				return !sp || sp.get() == gameListener;
+			}),
+		m_listeners.end());
 }
 
 
