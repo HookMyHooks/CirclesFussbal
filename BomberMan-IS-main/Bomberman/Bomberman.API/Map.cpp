@@ -16,13 +16,13 @@ void Map::Initialize(IPlayer* player1, IPlayer* player2)
 {
     ResetMap();
 
-    for (int line = 0; line < 14; line++) {
+    for (int line = 0; line < 18; line++) {
         std::vector<ISquare*> lineVector;
-        for (int col = 0; col < 14; col++) {
+        for (int col = 0; col < 30; col++) {
             ISquare* square = nullptr;
 
             // 1. Edges: Set to UnbreakableWall
-            if (line == 0 || line == 13 || col == 0 || col == 13) {
+            if (line == 0 || line == 17 || col == 0 || col == 29) {
                 square = new Square(
                     std::make_pair(line, col),
                     nullptr,

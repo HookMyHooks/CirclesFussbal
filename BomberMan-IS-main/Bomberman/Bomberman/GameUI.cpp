@@ -21,7 +21,7 @@ void GameUI::initVariables()
 
 void GameUI::initWindow()
 {
-	this->window = new sf::RenderWindow(sf::VideoMode(800, 800), "Bomberman");
+	this->window = new sf::RenderWindow(sf::VideoMode(1920, 1080), "Bomberman");
 }
 
 void GameUI::initTimer()
@@ -33,7 +33,7 @@ void GameUI::initTimer()
 	}
 	timer.setFont(font);
 	timer.setCharacterSize(24);
-	timer.setFillColor(sf::Color::White);
+	timer.setFillColor(sf::Color::Red);
 	timer.setPosition(10, 10);
 }
 
