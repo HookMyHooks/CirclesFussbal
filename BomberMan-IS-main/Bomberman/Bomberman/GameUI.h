@@ -13,6 +13,7 @@ private:
 	sf::Event ev;
 	IGame* game;
 	std::map<std::string, sf::Texture> textureCache;
+	EDifficulty mapDifficulty;
 	
 	sf::Texture gameOverTexture;
 	sf::Sprite gameOverSprite;

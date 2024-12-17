@@ -7,7 +7,6 @@ Game::Game(EDifficulty mapDifficulty) : gameIsOver(false), gameTimer(100.0f)
 {
     this->player1 = new Player(EPlayerType::One, 1, 1);
     this->player2 = new Player(EPlayerType::Two, 12, 12);
-
     // Select strategy based on the provided difficulty
     IMapStrategy* strategy = nullptr;
 

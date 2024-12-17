@@ -5,6 +5,7 @@
 
 void GameUI::initVariables(EDifficulty difficulty)
 {
+	this->mapDifficulty = difficulty;
 	this->game = new Game(difficulty);
 	game->addGameListener(this);
 	if (!this->gameOverTexture.loadFromFile(Constants::GameOverPath)) {
@@ -79,19 +80,7 @@ void GameUI::pollEvents()
 			if (this->game->isOver()) {
 				if (this->ev.key.code == sf::Keyboard::R) 
 				{
-					std::pair<int,int>mapDimensions = this->game->getMap()->GetMapDimensions();
-					if (mapDimensions.first == 10)
-					{
-						startNewGame(EDifficulty::Easy);
-					}
-					else if (mapDimensions.first == 15)
-					{
-						startNewGame(EDifficulty::Medium);
-					}
-					else if (mapDimensions.first == 18);
-					{
-						startNewGame(EDifficulty::Hard);
-					}
+						startNewGame(mapDifficulty);
 				}
 			}
 			else {
