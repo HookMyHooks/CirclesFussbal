@@ -11,7 +11,7 @@ private:
 	IMapStrategy* strategy;
 
 public:
-	Map(IPlayer* player1 , IPlayer* player2,EMapInitialization mapInitialization);
+	Map(IPlayer* player1 , IPlayer* player2, IMapStrategy* strategy);
 
 	void Initialize(IPlayer* player1, IPlayer* player2) override;
 	void ResetMap() override;
@@ -22,5 +22,6 @@ public:
 	bool HasBombOnSquare(std::pair<int, int> position) const override;
 	void PlaceBomb(int x, int y) override;
 	void LoadFromFile(std::string filePath, IPlayer* player1, IPlayer* player2) override;
+
 };
 

@@ -4,14 +4,9 @@
 #include <fstream>
 #include <iostream>
 
-Map::Map(IPlayer* player1, IPlayer* player2, EMapInitialization mapInitialization)
+Map::Map(IPlayer* player1, IPlayer* player2, IMapStrategy* strategy): strategy(strategy)
 {
-    if(mapInitialization == EMapInitialization::Random)
-        Initialize(player1, player2);
-    else
-        LoadFromFile(Constants::BoardTxtPath, player1, player2);
-
-
+    board = strategy->GenerateMap(player1, player2);
 }
 
 void Map::Initialize(IPlayer* player1, IPlayer* player2)
@@ -83,9 +78,11 @@ void Map::Initialize(IPlayer* player1, IPlayer* player2)
 
 void Map::ResetMap()
 {
-    for (int i = 0; i < board.size(); i++)
-    {
-        board[i].clear();
+    for (auto& row : board) {
+        for (auto* square : row) {
+            delete square;
+        }
+        row.clear();
     }
     board.clear();
 }

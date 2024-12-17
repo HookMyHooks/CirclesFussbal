@@ -4,6 +4,7 @@
 #include "IMap.h"
 #include "Player.h"
 #include "IGameListener.h"
+#include "EDifficulty.h"
 #include <vector>
 
 class Game : public IGame {
@@ -18,7 +19,7 @@ private:
     std::vector<IGameListener*> listeners;
 
 public:
-    Game(EMapInitialization mapInitialization);
+    Game(EDifficulty mapDifficulty);
     ~Game();
 
     IMap* getMap() override;

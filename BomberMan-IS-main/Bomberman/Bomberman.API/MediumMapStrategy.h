@@ -1,4 +1,3 @@
-// MediumMapStrategy.h
 #pragma once
 #include "IMapStrategy.h"
 #include "Square.h"

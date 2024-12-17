@@ -5,6 +5,7 @@
 #include "Game.h"
 
 
+
 class GameUI : public IGameListener
 {
 private:
@@ -18,17 +19,17 @@ private:
 	sf::Text timer;
 	sf::Font font;
 
-	void initVariables();
+	void initVariables(EDifficulty difficulty);
 	void initWindow();
 	void initTimer();
 	void renderObjectsOnSquare(const ISquare* square);
 
 public:
-	GameUI();
+	GameUI(EDifficulty difficulty);
 	virtual ~GameUI();
 
 
-	void startNewGame();
+	void startNewGame(EDifficulty difficulty);
 	void Update(float elapsedTime);
 	void pollEvents();
 	void render();

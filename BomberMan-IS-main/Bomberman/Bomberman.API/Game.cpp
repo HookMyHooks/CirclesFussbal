@@ -1,11 +1,35 @@
 #include "Game.h"
+#include "EasyMapStrategy.h"
+#include "MediumMapStrategy.h"
+#include "HardMapStrategy.h"
 
-
-Game::Game(EMapInitialization mapInitialization) : gameIsOver(false),gameTimer(100.0f)
+Game::Game(EDifficulty mapDifficulty) : gameIsOver(false), gameTimer(100.0f)
 {
     this->player1 = new Player(EPlayerType::One, 1, 1);
     this->player2 = new Player(EPlayerType::Two, 12, 12);
-    this->map = new Map(player1,player2,mapInitialization);
+
+    // Select strategy based on the provided difficulty
+    IMapStrategy* strategy = nullptr;
+
+    switch (mapDifficulty)
+    {
+    case EDifficulty::Easy:
+        strategy = new EasyMapStrategy();
+        break;
+    case EDifficulty::Medium:
+        strategy = new MediumMapStrategy();
+        break;
+    case EDifficulty::Hard:
+        strategy = new HardMapStrategy();
+        break;
+    default:
+        throw std::invalid_argument("Invalid difficulty level");
+    }
+
+    this->map = new Map(player1, player2, strategy);
+
+    // Clean up the strategy after use
+    delete strategy;
 }
 
 Game::~Game() {

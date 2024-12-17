@@ -3,9 +3,9 @@
 #include "InputHandler.h"
 #include "SpriteHandler.h"
 
-void GameUI::initVariables()
+void GameUI::initVariables(EDifficulty difficulty)
 {
-	this->game = new Game(EMapInitialization::Random);
+	this->game = new Game(difficulty);
 	game->addGameListener(this);
 	if (!this->gameOverTexture.loadFromFile(Constants::GameOverPath)) {
 		std::cerr << "Failed to load Game Over image!" << std::endl;
@@ -37,9 +37,9 @@ void GameUI::initTimer()
 	timer.setPosition(10, 10);
 }
 
-GameUI::GameUI()
+GameUI::GameUI(EDifficulty difficulty)
 {
-	this->initVariables();
+	this->initVariables(difficulty);
 	this->initWindow();
 	this->initTimer();
 }
@@ -50,10 +50,10 @@ GameUI::~GameUI()
 	delete this->game;
 }
 
-void GameUI::startNewGame()
+void GameUI::startNewGame(EDifficulty difficulty)
 {
 	delete this->game;
-	this->game = new Game(EMapInitialization::Random);
+	this->game = new Game(difficulty);
 	game->addGameListener(this);
 	game->notifyAllListeners();
 }
@@ -77,8 +77,21 @@ void GameUI::pollEvents()
 			break;
 		case sf::Event::KeyPressed:
 			if (this->game->isOver()) {
-				if (this->ev.key.code == sf::Keyboard::R) {
-					startNewGame();
+				if (this->ev.key.code == sf::Keyboard::R) 
+				{
+					std::pair<int,int>mapDimensions = this->game->getMap()->GetMapDimensions();
+					if (mapDimensions.first == 10)
+					{
+						startNewGame(EDifficulty::Easy);
+					}
+					else if (mapDimensions.first == 15)
+					{
+						startNewGame(EDifficulty::Medium);
+					}
+					else if (mapDimensions.first == 18);
+					{
+						startNewGame(EDifficulty::Hard);
+					}
 				}
 			}
 			else {
