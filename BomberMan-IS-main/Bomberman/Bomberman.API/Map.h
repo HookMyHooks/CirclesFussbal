@@ -2,11 +2,13 @@
 #include "IMap.h"
 #include <random>
 #include "EMapInitialization.h"
+#include "IMapStrategy.h"
 
 class Map : public IMap
 {
 private:
 	std::vector<std::vector<ISquare*>> board;
+	IMapStrategy* strategy;
 
 public:
 	Map(IPlayer* player1 , IPlayer* player2,EMapInitialization mapInitialization);

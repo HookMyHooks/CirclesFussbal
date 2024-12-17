@@ -10,19 +10,23 @@ Map::Map(IPlayer* player1, IPlayer* player2, EMapInitialization mapInitializatio
         Initialize(player1, player2);
     else
         LoadFromFile(Constants::BoardTxtPath, player1, player2);
+
+
 }
 
 void Map::Initialize(IPlayer* player1, IPlayer* player2)
 {
     ResetMap();
 
-    for (int line = 0; line < 18; line++) {
+    //18
+    for (int line = 0; line < 16; line++) {
         std::vector<ISquare*> lineVector;
-        for (int col = 0; col < 30; col++) {
+        //30
+        for (int col = 0; col < 16; col++) {
             ISquare* square = nullptr;
 
             // 1. Edges: Set to UnbreakableWall
-            if (line == 0 || line == 17 || col == 0 || col == 29) {
+            if (line == 0 || line == 15 || col == 0 || col == 15) {
                 square = new Square(
                     std::make_pair(line, col),
                     nullptr,
