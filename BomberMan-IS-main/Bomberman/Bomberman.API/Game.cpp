@@ -11,7 +11,7 @@
  *
  * @param mapDifficulty The difficulty level for the map (Easy, Medium, Hard).
  */
-Game::Game(EDifficulty mapDifficulty) : gameIsOver(false), gameTimer(100.0f)
+Game::Game(EDifficulty mapDifficulty) : gameIsOver(false), gameTimer(300.0f)
 {
     this->player1 = new Player(EPlayerType::One, 1, 1);
     this->player2 = new Player(EPlayerType::Two, 12, 12);
@@ -277,4 +277,70 @@ void Game::UpdateTimer(float elapsedTime)
         SetGameOver();
     }
     notifyAllListeners();
+}
+
+void Game::HandleActiveFire(const float& elapsedTime) 
+{
+    bool activeFireState = false;
+
+    for (auto fire = activeFire.begin(); fire != activeFire.end();)
+    {
+        if ((*fire)->HasExpired(elapsedTime))
+        {
+            std::pair<int, int> positionFire = (*fire)->GetPosition();
+            ISquare* square = map->GetSquare(positionFire.first, positionFire.second);
+            square->ClearFire();
+            fire = activeFire.erase(fire);
+            activeFireState = true;
+        }
+        else
+            fire++;
+    }
+    if (activeFireState)
+        notifyAllListeners();
+
+}
+
+void Game::UpdateMap(std::pair<int, int> position, int rangeBomb)
+{
+    std::vector<std::pair<int, int>> directions = {
+          { 0, 1},
+          { 0, -1},
+          { 1, 0},
+          {-1, 0}
+    };
+    int row = position.first;
+    int col = position.second;
+    for (auto& direction : directions)
+    {
+        for (int distance = 0; distance < rangeBomb; distance++)
+        {
+            int targetRow = row + (distance + 1) * direction.first;
+            int targetCol = col + (distance + 1) * direction.second;
+            if (targetRow < 0 || targetCol < 0 || targetRow >= map->GetMapDimensions().first || targetCol >= map->GetMapDimensions().second) {
+                break;
+            }
+            ISquare* targetSquare = map->GetSquare(targetRow, targetCol);
+            if (targetSquare->GetPlayer())
+            {
+                this->SetGameOver();
+                return;
+            }
+            if (targetSquare->GetSquareType() != ESquareType::Grass)
+            {
+                if (targetSquare->GetSquareType() == ESquareType::Wall)
+                {
+                    targetSquare->SetSquareType(ESquareType::Grass);
+                    targetSquare->SetImagePath(Constants::GrassPNGPath);
+                }
+                break;
+
+            }
+            IFire* fire = new Fire(std::make_pair(targetRow, targetCol), 2);
+            targetSquare->SetFire(fire);
+            activeFire.push_back(fire);
+        }
+
+    }
+
 }

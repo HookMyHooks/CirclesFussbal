@@ -203,6 +203,7 @@
     <ClInclude Include="IPlayer.h" />
     <ClInclude Include="ISquare.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="MapGenerationUtils.h" />
     <ClInclude Include="MediumMapStrategy.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerListener.h" />
@@ -215,6 +216,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HardMapStrategy.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="MapGenerationUtils.cpp" />
     <ClCompile Include="MediumMapStrategy.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Square.cpp" />

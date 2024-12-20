@@ -3,6 +3,7 @@
 #include <vector>
 #include "ISquare.h"
 #include "IPlayer.h"
+#include "MapGenerationUtils.h"
 
 class IMapStrategy {
 public:
