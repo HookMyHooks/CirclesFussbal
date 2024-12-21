@@ -279,6 +279,15 @@ void Game::UpdateTimer(float elapsedTime)
     notifyAllListeners();
 }
 
+/**
+ * @brief Handles the active fire in the game.
+ *
+ * Iterates through all active fire instances and checks if they have expired.
+ * If a fire has expired, it is removed from the map and the active fire list.
+ * Notifies listeners if any changes are made to the fire state.
+ *
+ * @param elapsedTime The time elapsed since the last update.
+ */
 void Game::HandleActiveFire(const float& elapsedTime) 
 {
     bool activeFireState = false;
@@ -301,6 +310,16 @@ void Game::HandleActiveFire(const float& elapsedTime)
 
 }
 
+/**
+ * @brief Updates the game map after a bomb explosion.
+ *
+ * Applies the effect of a bomb explosion to the surrounding area on the map
+ * based on the bomb's range. Affected squares may have fire applied or walls
+ * destroyed. If a player is caught in the explosion, the game ends.
+ *
+ * @param position The position of the exploded bomb.
+ * @param rangeBomb The range of the bomb explosion.
+ */
 void Game::UpdateMap(std::pair<int, int> position, int rangeBomb)
 {
     std::vector<std::pair<int, int>> directions = {

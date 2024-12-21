@@ -3,6 +3,19 @@
 
 namespace MapGenerationUtils {
 
+    /**
+     * @brief Generates a row of the game map with appropriate square types.
+     *
+     * Creates squares based on their position within the row and the map, assigning
+     * unbreakable walls, grass, or randomly generating breakable walls or grass for
+     * each position. Reserved positions are always grass.
+     *
+     * @param row A reference to the vector representing the row to be generated.
+     * @param line The current row index in the map grid.
+     * @param cols The total number of columns in the map.
+     * @param rows The total number of rows in the map.
+     * @param reservedPositions A vector of positions that should always be grass.
+     */
     void GenerateRow(std::vector<ISquare*>& row, int line, int cols, int rows, const std::vector<std::pair<int, int>>& reservedPositions) {
         for (int col = 0; col < cols; col++) {
             ISquare* square = nullptr;
@@ -53,6 +66,17 @@ namespace MapGenerationUtils {
         }
     }
 
+    /**
+     * @brief Checks if a given position is reserved.
+     *
+     * Determines if a specific map position belongs to the list of reserved positions,
+     * which are used for ensuring specific areas (like player starting positions) are always grass.
+     *
+     * @param line The row index of the position to check.
+     * @param col The column index of the position to check.
+     * @param reservedPositions A vector of reserved positions.
+     * @return True if the position is reserved, false otherwise.
+     */
     bool IsReservedPosition(int line, int col, const std::vector<std::pair<int, int>>& reservedPositions) {
         for (const auto& pos : reservedPositions) {
             if (pos.first == line && pos.second == col) {
@@ -62,6 +86,16 @@ namespace MapGenerationUtils {
         return false;
     }
 
+     /**
+     * @brief Retrieves a list of reserved positions on the map.
+     *
+     * Reserved positions include starting positions for players and nearby grass
+     * squares, ensuring these areas are not blocked by walls.
+     *
+     * @param rows The total number of rows in the map.
+     * @param cols The total number of columns in the map.
+     * @return A vector of reserved positions as row-column pairs.
+     */
     std::vector<std::pair<int, int>> GetReservedPositions(int rows, int cols) {
         return {
             {rows - 2,cols - 2},       // Player 2 start position

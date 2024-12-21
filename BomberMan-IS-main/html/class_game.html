@@ -137,9 +137,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a8e70f22681d0775a3ae0008872e918f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles bomb explosions, updating fire and the game map.  <br /></td></tr>
 <tr class="separator:a8e70f22681d0775a3ae0008872e918f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad9d80055395120b3d93983cc2532fdb7" id="r_ad9d80055395120b3d93983cc2532fdb7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad9d80055395120b3d93983cc2532fdb7">HandleActiveFire</a> (const float &amp;elapsedTime) override</td></tr>
+<tr class="memdesc:ad9d80055395120b3d93983cc2532fdb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles the active fire in the game.  <br /></td></tr>
 <tr class="separator:ad9d80055395120b3d93983cc2532fdb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5905e9353facc7d76c8b5e4d5105b157" id="r_a5905e9353facc7d76c8b5e4d5105b157"><td class="memItemLeft" align="right" valign="top"><a id="a5905e9353facc7d76c8b5e4d5105b157" name="a5905e9353facc7d76c8b5e4d5105b157"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateMap</b> (std::pair&lt; int, int &gt; position, int rangeBomb)</td></tr>
+<tr class="memitem:a5905e9353facc7d76c8b5e4d5105b157" id="r_a5905e9353facc7d76c8b5e4d5105b157"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5905e9353facc7d76c8b5e4d5105b157">UpdateMap</a> (std::pair&lt; int, int &gt; position, int rangeBomb)</td></tr>
+<tr class="memdesc:a5905e9353facc7d76c8b5e4d5105b157"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the game map after a bomb explosion.  <br /></td></tr>
 <tr class="separator:a5905e9353facc7d76c8b5e4d5105b157"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af227a0cd3efcf90711693a4dd99d5df6" id="r_af227a0cd3efcf90711693a4dd99d5df6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af227a0cd3efcf90711693a4dd99d5df6">UpdateTimer</a> (float elapsedTime) override</td></tr>
 <tr class="memdesc:af227a0cd3efcf90711693a4dd99d5df6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the game timer.  <br /></td></tr>
@@ -409,6 +410,15 @@ std::vector&lt; <a class="el" href="class_i_game_listener.html">IGameListener</a
 </table>
 </div><div class="memdoc">
 
+<p>Handles the active fire in the game. </p>
+<p>Iterates through all active fire instances and checks if they have expired. If a fire has expired, it is removed from the map and the active fire list. Notifies listeners if any changes are made to the fire state.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">elapsedTime</td><td>The time elapsed since the last update. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 <p>Implements <a class="el" href="class_i_game.html">IGame</a>.</p>
 
 </div>
@@ -645,6 +655,37 @@ std::vector&lt; <a class="el" href="class_i_game_listener.html">IGameListener</a
 <p>Sets the game as over and notifies all listeners. </p>
 
 <p>Implements <a class="el" href="class_i_game.html">IGame</a>.</p>
+
+</div>
+</div>
+<a id="a5905e9353facc7d76c8b5e4d5105b157" name="a5905e9353facc7d76c8b5e4d5105b157"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5905e9353facc7d76c8b5e4d5105b157">&#9670;&#160;</a></span>UpdateMap()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game::UpdateMap </td>
+          <td>(</td>
+          <td class="paramtype">std::pair&lt; int, int &gt;</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>rangeBomb</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Updates the game map after a bomb explosion. </p>
+<p>Applies the effect of a bomb explosion to the surrounding area on the map based on the bomb's range. Affected squares may have fire applied or walls destroyed. If a player is caught in the explosion, the game ends.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">position</td><td>The position of the exploded bomb. </td></tr>
+    <tr><td class="paramname">rangeBomb</td><td>The range of the bomb explosion. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
